@@ -1,12 +1,14 @@
 import { createCookieSessionStorage } from "@remix-run/node"
 import { Authenticator } from "remix-auth"
 import { OAuth2Strategy } from "remix-auth-oauth2"
+import { createOrGetUser, selectUser } from "src/db/users.server"
 import { EmailLinkStrategy } from "remix-auth-email-link"
 
 import { logger } from "src/logger"
 import { extractError } from "src/utils"
 import { isAdminEmail } from "src/utils.server"
 import { sendEmail } from "./email.server"
+import { UserRow } from "src/db/types"
 
 // export the whole sessionStorage object
 export let sessionStorage = createCookieSessionStorage({
@@ -58,7 +60,7 @@ authenticator.use(
           "got user"
         )
 
-        const user = {} as any
+        const user = await createOrGetUser(email)
 
         return {
           ...user,
@@ -79,3 +81,22 @@ authenticator.use(
   // need to set a custom name to each one
   emailStrategyAuthenticator
 )
+
+export interface authedUser extends UserRow {
+  authSession: AuthSession
+}
+
+export async function getAuthedUser(
+  request: Request
+): Promise<authedUser | null> {
+  const user = await authenticator.isAuthenticated(request)
+  if (!user) {
+    return null
+  }
+
+  const userInfo = await selectUser(user.id)
+  return {
+    ...userInfo,
+    authSession: user,
+  }
+}
