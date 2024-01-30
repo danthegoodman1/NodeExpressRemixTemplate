@@ -48,7 +48,7 @@ export async function action({ request }: ActionFunctionArgs) {
     await authenticator.authenticate(emailStrategyAuthenticator, request, {
       // If this is not set, any error will be throw and the ErrorBoundary will be
       // rendered.
-      successRedirect: cookie ?? "/",
+      successRedirect: cookie ?? "/signin",
       throwOnError: true,
     })
   } catch (error) {
