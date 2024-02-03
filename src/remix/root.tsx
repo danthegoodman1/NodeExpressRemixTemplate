@@ -50,14 +50,14 @@ export const meta: MetaFunction = () => {
 }
 
 export async function loader(args: LoaderFunctionArgs) {
+  const user = await authenticator.isAuthenticated(args.request)
   logger.debug(
     {
       URL: args.request.url,
+      userID: user?.id,
     },
     "loaded URL"
   )
-
-  const user = await authenticator.isAuthenticated(args.request)
 
   // Env vars for frontend
   const ENV: { [key: string]: string } = {}
