@@ -35,6 +35,10 @@ declare global {
       S3_ENDPOINT: string
       POSTMARK_TOKEN: string
       MY_URL: string
+
+      AXIOM_ORG_ID: string
+      AXIOM_TOKEN: string
+      AXIOM_DATASET: string
     }
   }
 }
