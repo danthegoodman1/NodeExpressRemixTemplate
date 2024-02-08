@@ -4,6 +4,7 @@ dotenv.config()
 import express from "express"
 import { v4 as uuidv4 } from "uuid"
 import cors from "cors"
+import { statfs } from "fs/promises"
 
 import { logger } from "./logger/index"
 import { createRequestHandler } from "@remix-run/express"
@@ -42,6 +43,16 @@ declare global {
     }
   }
 }
+
+const diskCheckLoop = setInterval(async () => {
+  const stats = await statfs(process.env.DISK_PATH || "/")
+  const totalSpace = stats.bsize * stats.blocks
+  const availableSpace = stats.bsize * stats.bfree
+  if (availableSpace < totalSpace * 0.15) {
+    // When 15% space left, notify
+    logger.error("less less than 15% disk space remaining!")
+  }
+}, 30_000)
 
 async function main() {
   await initDB()
@@ -96,6 +107,7 @@ async function main() {
         return
       }
       stopping = true
+      clearInterval(diskCheckLoop)
       logger.info(`Received signal ${signal}, shutting down...`)
       logger.info("exiting...")
       logger.flush() // pino actually fails to flush, even with awaiting on a callback
