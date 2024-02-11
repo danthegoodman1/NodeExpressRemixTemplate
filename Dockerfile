@@ -31,6 +31,7 @@ RUN apt update
 RUN apt install wget sqlite3 -y
 RUN wget https://github.com/benbjohnson/litestream/releases/download/v0.3.13/litestream-v0.3.13-linux-amd64.deb
 RUN dpkg -i litestream-v0.3.13-linux-amd64.deb
+RUN wget -O - https://tailscale.com/install.sh | sh
 
 COPY --from=install /temp/prod/node_modules node_modules
 COPY --from=prerelease /app/src ./src
@@ -38,6 +39,4 @@ COPY --from=prerelease /app/build ./build
 COPY --from=prerelease /app/public ./public
 COPY . .
 
-RUN chown node /app
-USER node
-CMD [ "litestream", "replicate", "-config", "/app/litestream.yml", "-exec", "npm start"]
+CMD [ "/bin/bash", "start.sh"]
