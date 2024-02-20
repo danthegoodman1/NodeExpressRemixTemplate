@@ -7,7 +7,7 @@ export function extractError(e: any | Error) {
 }
 
 // TODO: if array, flatten
-export function classNames(...classes: (string | boolean)[]) {
+export function classNames(...classes: (string | boolean | undefined)[]) {
   return classes.filter(Boolean).join(" ")
 }
 
