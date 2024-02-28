@@ -21,12 +21,11 @@ export let sendEmail: SendEmailFunction<UserRow> = async (options) => {
   )
 
   logger.debug({ body, email: options.emailAddress }, "sending login email")
-
   const res = await fetch("https://api.postmarkapp.com/email/batch", {
     method: "POST",
     headers: {
       "content-type": "application/json",
-      "X-Postmark-Server-Token": process.env.POSTMARK_TOKEN,
+      "X-Postmark-Server-Token": process.env.POSTMARK_TOKEN!,
     },
     body: JSON.stringify([
       {
@@ -76,7 +75,7 @@ export async function sendBulkEmails(opts: SendBulkEmailOpts) {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        "X-Postmark-Server-Token": process.env.POSTMARK_TOKEN,
+        "X-Postmark-Server-Token": process.env.POSTMARK_TOKEN!,
       },
       body: JSON.stringify(
         chunk.map((target) => {

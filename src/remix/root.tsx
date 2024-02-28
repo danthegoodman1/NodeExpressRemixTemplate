@@ -17,6 +17,7 @@ import { logger } from "../api/logger"
 import { ServerOnly } from "remix-utils/server-only"
 import { ClientOnly } from "remix-utils/client-only"
 
+// @ts-ignore // idk why this is complaining
 import stylesheet from "./index.css"
 
 
