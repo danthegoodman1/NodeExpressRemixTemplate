@@ -1,5 +1,7 @@
 # NodeExpressRemixTemplate
 
+FYI `NODE_ENV=production` disables the `ErrorResponseImpl` log when no matching route
+
 ## ENV Vars
 
 For litestream, need:

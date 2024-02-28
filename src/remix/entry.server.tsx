@@ -11,8 +11,8 @@ import { createReadableStreamFromReadable } from "@remix-run/node"
 import { RemixServer } from "@remix-run/react"
 import isbot from "isbot"
 import { renderToPipeableStream } from "react-dom/server"
-import { logger } from "src/logger"
-import { extractError } from "src/utils"
+import { logger } from "../api/logger"
+import { extractError } from "../api/utils"
 
 const ABORT_DELAY = 5_000
 
@@ -142,10 +142,11 @@ function handleBrowserRequest(
 }
 
 export function handleError(
-  error: unknown,
+  error: any,
   { request, params, context }: LoaderFunctionArgs | ActionFunctionArgs
 ) {
-  if (!request.signal.aborted) {
+  // FYI NODE_ENV=production disables the `ErrorResponseImpl` log when no matching route
+  if (!request.signal.aborted && !error.data?.includes("No route matches URL")) {
     logger.error(
       {
         err: extractError(error),

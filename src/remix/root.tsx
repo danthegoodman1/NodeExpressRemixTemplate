@@ -13,18 +13,20 @@ import {
   json,
   useLoaderData,
 } from "@remix-run/react"
-import { logger } from "src/logger"
+import { logger } from "../api/logger"
 import { ServerOnly } from "remix-utils/server-only"
 import { ClientOnly } from "remix-utils/client-only"
 
-import stylesheet from "~/index.css"
-import TopNav from "./components/TopNav"
+// @ts-ignore // idk why this is complaining
+import stylesheet from "./index.css"
+
 
 // Fix icon resize on reload
 import "@fortawesome/fontawesome-svg-core/styles.css" // not even sure this does anything
 import { config } from "@fortawesome/fontawesome-svg-core"
 import { Toaster } from "react-hot-toast"
 import { authenticator } from "./auth/authenticator"
+import TopNav from "./components/TopNav"
 config.autoAddCss = false /* eslint-disable import/first */
 
 export const links: LinksFunction = () => [

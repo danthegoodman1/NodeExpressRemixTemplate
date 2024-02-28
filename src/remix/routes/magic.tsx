@@ -1,7 +1,9 @@
 // app/routes/magic.tsx
 import { LoaderFunctionArgs, redirect } from "@remix-run/node"
-import { authenticator, emailStrategyAuthenticator } from "~/auth/authenticator"
-import { signinRedirectCookie } from "~/auth/signin_redirect_cookie"
+import { signinRedirectCookie } from "../auth/signin_redirect_cookie"
+import { authenticator, emailStrategyAuthenticator } from "../auth/authenticator"
+
+
 
 export async function loader({ request }: LoaderFunctionArgs) {
   // The success redirect is required in this action, this is where the user is

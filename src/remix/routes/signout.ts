@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs } from "@remix-run/node"
-import { authenticator } from "~/auth/authenticator"
+import { authenticator } from "../auth/authenticator"
 
 export async function loader(args: LoaderFunctionArgs) {
   const searchParams = new URL(args.request.url).searchParams
