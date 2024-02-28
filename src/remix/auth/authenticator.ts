@@ -1,15 +1,15 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node"
 import { Authenticator } from "remix-auth"
 import { OAuth2Strategy } from "remix-auth-oauth2"
-import { createOrGetUser, selectUser } from "src/db/users.server"
+import { createOrGetUser, selectUser } from "../../api/db/users.server"
 import { EmailLinkStrategy } from "remix-auth-email-link"
 
-import { logger } from "src/logger"
-import { extractError } from "src/utils"
-import { isAdminEmail } from "src/utils.server"
+import { logger } from "../../api/logger"
+import { extractError } from "../../api/utils"
+import { isAdminEmail } from "../../api/utils.server"
 import { sendEmail } from "./email.server"
-import { UserRow } from "src/db/types"
-import { RowsNotFound } from "src/db/errors"
+import { UserRow } from "../../api/db/types"
+import { RowsNotFound } from "../../api/db/errors"
 
 // export the whole sessionStorage object
 export let sessionStorage = createCookieSessionStorage({

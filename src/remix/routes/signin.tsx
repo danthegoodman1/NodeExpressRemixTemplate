@@ -10,8 +10,9 @@ import {
   authenticator,
   emailStrategyAuthenticator,
   sessionStorage,
-} from "~/auth/authenticator"
-import { signinRedirectCookie } from "~/auth/signin_redirect_cookie"
+} from "../auth/authenticator"
+import { signinRedirectCookie } from "../auth/signin_redirect_cookie"
+
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const user = await authenticator.isAuthenticated(request)

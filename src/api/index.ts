@@ -6,16 +6,16 @@ import { v4 as uuidv4 } from "uuid"
 import cors from "cors"
 import { statfs } from "fs/promises"
 
-import { logger } from "./logger/index"
+import { logger } from "./logger/index.js"
 import { createRequestHandler } from "@remix-run/express"
 import { broadcastDevReady } from "@remix-run/node"
 
 import sourceMapSupport from "source-map-support"
 sourceMapSupport.install()
 
-import * as build from "../build/index.js"
-import { initDB } from "./db/db.server"
-import { extractError } from "./utils"
+const build = await import("../../" + "build/index.js") // tsc will try to import this
+import { extractError } from "./utils.js"
+import { initDB } from "./db/db.server.js"
 
 const listenPort = process.env.PORT || "8080"
 

@@ -1,7 +1,7 @@
 import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
-import { readMarkdown } from "src/utils"
-import MarkdownRenderer from "~/components/MarkdownRenderer"
+import { readMarkdown } from "../../api/utils"
+import MarkdownRenderer from "../components/MarkdownRenderer"
 
 export async function loader() {
   return json({ markdownContent: await readMarkdown("terms.md") })

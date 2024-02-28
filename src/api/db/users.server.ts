@@ -1,8 +1,8 @@
-import { logger } from "src/logger"
-import { db } from "./db.server"
-import { UserRow } from "./types"
-import { extractError } from "src/utils"
-import { RowsNotFound } from "./errors"
+import { logger } from "../logger/index.js"
+import { db } from "./db.server.js"
+import { UserRow } from "./types.js"
+import { extractError } from "../utils.js"
+import { RowsNotFound } from "./errors.js"
 import { randomUUID } from "crypto"
 
 export async function createOrGetUser(

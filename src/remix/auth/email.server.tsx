@@ -1,8 +1,8 @@
 // app/services/email.server.tsx
 import { renderToString } from "react-dom/server"
 import type { SendEmailFunction } from "remix-auth-email-link"
-import { UserRow } from "src/db/types"
-import { logger } from "src/logger"
+import { UserRow } from "../../api/db/types"
+import { logger } from "../../api/logger"
 
 export let sendEmail: SendEmailFunction<UserRow> = async (options) => {
   let body = renderToString(

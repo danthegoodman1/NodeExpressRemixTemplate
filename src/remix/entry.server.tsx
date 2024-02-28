@@ -11,8 +11,8 @@ import { createReadableStreamFromReadable } from "@remix-run/node"
 import { RemixServer } from "@remix-run/react"
 import isbot from "isbot"
 import { renderToPipeableStream } from "react-dom/server"
-import { logger } from "src/logger"
-import { extractError } from "src/utils"
+import { logger } from "../api/logger"
+import { extractError } from "../api/utils"
 
 const ABORT_DELAY = 5_000
 
