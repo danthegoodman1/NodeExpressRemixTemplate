@@ -142,10 +142,11 @@ function handleBrowserRequest(
 }
 
 export function handleError(
-  error: unknown,
+  error: any,
   { request, params, context }: LoaderFunctionArgs | ActionFunctionArgs
 ) {
-  if (!request.signal.aborted) {
+  // FYI NODE_ENV=production disables the `ErrorResponseImpl` log when no matching route
+  if (!request.signal.aborted && !error.data?.includes("No route matches URL")) {
     logger.error(
       {
         err: extractError(error),

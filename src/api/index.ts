@@ -13,7 +13,7 @@ import { broadcastDevReady } from "@remix-run/node"
 import sourceMapSupport from "source-map-support"
 sourceMapSupport.install()
 
-const build = await import("../../" + "build/index.js") // tsc will try to import this
+const build = await import(process.env.NODE_ENV === "production" ? "../build/index.js" : "../../build/index.js") // tsc will try to import this
 import { extractError } from "./utils.js"
 import { initDB } from "./db/db.server.js"
 
