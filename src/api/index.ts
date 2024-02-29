@@ -95,7 +95,7 @@ async function main() {
   })
 
   // Everything else we send to the frontend
-  app.all("*", createRequestHandler({ build: build as any }))
+  app.all("*", createRequestHandler({ build: build as any, mode: process.env.NODE_ENV }))
 
   const server = app.listen(listenPort, () => {
     if (process.env.NODE_ENV === "development") {

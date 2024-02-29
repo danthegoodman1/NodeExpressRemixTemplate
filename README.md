@@ -1,6 +1,6 @@
 # NodeExpressRemixTemplate
 
-FYI `NODE_ENV=production` disables the `ErrorResponseImpl` log when no matching route
+FYI `NODE_ENV=production` disables the `No routes matched location` log, and an error boundary in the `root.tsx` removes the `ErrorResponseImpl` log.
 
 ## ENV Vars
 

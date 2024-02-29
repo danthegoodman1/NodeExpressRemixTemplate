@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npm run build:remix && npm run build:server",
     "build:remix": "NODE_ENV=production remix build",
-    "build:server": "cd src/api && tsc",
+    "build:server": "cd src/api && NODE_ENV=production tsc",
     "dev": "remix dev --manual -c \"tsx watch src/api/index.ts\"",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "NODE_ENV=production node dist/index.js",
@@ -56,14 +56,15 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@remix-run/dev": "^2.4.1",
+    "@remix-run/dev": "^2.7.2",
     "@types/adm-zip": "^0.5.5",
     "@types/compression": "^1.7.2",
     "@types/cors": "^2.8.17",
     "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.11.21",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
-    "@types/source-map-support": "^0.5.6",
+    "@types/source-map-support": "^0.5.10",
     "@types/uuid": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
     "bun-types": "^1.0.24",

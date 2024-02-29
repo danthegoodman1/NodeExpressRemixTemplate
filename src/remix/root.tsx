@@ -10,8 +10,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  isRouteErrorResponse,
   json,
   useLoaderData,
+  useRouteError,
 } from "@remix-run/react"
 import { logger } from "../api/logger"
 import { ServerOnly } from "remix-utils/server-only"
@@ -129,6 +131,31 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+      </body>
+    </html>
+  )
+}
+
+// Need to suppress remix `ErrorResponseImpl` errors, and set NODE_ENV=production to remove the extra logs
+export function ErrorBoundary() {
+  const error = useRouteError()
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <h1>
+          {isRouteErrorResponse(error)
+            ? `${error.status} ${error.statusText}`
+            : error instanceof Error
+            ? error.message
+            : "Unknown Error"}
+        </h1>
+        <Scripts />
       </body>
     </html>
   )
