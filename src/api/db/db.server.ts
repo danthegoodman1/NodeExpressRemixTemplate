@@ -4,6 +4,7 @@ import { open } from "sqlite"
 import { readFile } from "fs/promises"
 import path from "path"
 import { logger } from "../logger/index.js"
+import { fileURLToPath } from "url"
 
 const dbFileName = process.env.DB_FILENAME ?? "sqlite.db"
 export const db = await open({
@@ -16,7 +17,10 @@ export async function initDB() {
   await db.exec("PRAGMA busy_timeout = 5000;")
   await db.exec("PRAGMA synchronous = NORMAL;")
   logger.debug(`Using db file "${dbFileName}"`)
-  const schema = await readFile(path.join("src", "api", "db", "schema.sql"), "utf-8")
+  const schema = await readFile(
+    fileURLToPath(new URL("./schema.sql", import.meta.url)),
+    "utf-8"
+  )
   logger.debug(`Running schema.sql`)
   schema
     .split(";")
