@@ -1,5 +1,5 @@
 import { logger } from "../logger/index.js"
-import { db } from "./db.server.js"
+import { pool } from "./db.server.js"
 import { UserRow } from "./types.js"
 import { extractError } from "../utils.js"
 import { RowsNotFound } from "./errors.js"
@@ -9,8 +9,9 @@ export async function createOrGetUser(
   email: string,
   refreshToken?: string
 ): Promise<UserRow> {
+  const conn = await pool.acquire()
   try {
-    let user = await db.get<UserRow>(
+    let user = await conn.get<UserRow>(
       `
     select *
     from users
@@ -21,7 +22,7 @@ export async function createOrGetUser(
     if (!user) {
       // Create it
       const id = randomUUID()
-      user = await db.get<UserRow>(
+      user = await conn.get<UserRow>(
         `insert into users (id, email, created_ms, refresh_token) values (?, ?, ?, ?) returning *`,
         id,
         email,
@@ -39,32 +40,44 @@ export async function createOrGetUser(
       "error in createOrGetUser"
     )
     throw error
+  } finally {
+    await pool.release(conn)
   }
 }
 
 export async function selectUser(id: string): Promise<UserRow> {
-  const user = await db.get<UserRow>(
-    `
-select *
-from users
-where id = ?
-`,
-    id
-  )
-  if (!user) {
-    throw new RowsNotFound()
+  const conn = await pool.acquire()
+  try {
+    const user = await conn.get<UserRow>(
+      `
+    select *
+    from users
+    where id = ?
+    `,
+      id
+    )
+    if (!user) {
+      throw new RowsNotFound()
+    }
+    return user
+  } finally {
+    await pool.release(conn)
   }
-  return user
 }
 
 export async function updateUserRefreshToken(id: string, refreshToken: string) {
-  await db.run(
-    `
+  const conn = await pool.acquire()
+  try {
+    await conn.run(
+      `
     update users
     set refresh_token = ?
     where id = ?
   `,
-    refreshToken,
-    id
-  )
+      refreshToken,
+      id
+    )
+  } finally {
+    await pool.release(conn)
+  }
 }

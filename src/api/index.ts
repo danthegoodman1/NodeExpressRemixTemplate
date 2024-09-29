@@ -15,7 +15,6 @@ sourceMapSupport.install()
 
 const build = await import(process.env.NODE_ENV === "production" ? "../build/index.js" : "../../build/index.js") // tsc will try to import this
 import { extractError } from "./utils.js"
-import { initDB } from "./db/db.server.js"
 
 const listenPort = process.env.PORT || "8080"
 
@@ -65,7 +64,6 @@ process.on("unhandledRejection", (reason: any, p: Promise<any>) => {
 })
 
 async function main() {
-  await initDB()
   const app = express()
   app.use(express.json())
   app.disable("x-powered-by")
