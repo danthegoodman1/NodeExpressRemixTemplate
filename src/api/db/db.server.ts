@@ -17,7 +17,7 @@ export const pool = genericPool.createPool(
       })
       await db.exec("PRAGMA journal_mode = WAL;")
       await db.exec("PRAGMA busy_timeout = 5000;")
-      await db.exec("PRAGMA synchronous = NORMAL;") // litestream permits relaxing this
+      await db.exec("PRAGMA synchronous = NORMAL;") // WAL permits relaxing this
       logger.debug(`Using db file "${dbFileName}"`)
       const schema = await readFile(
         path.join("src", "api", "db", "schema.sql"),
