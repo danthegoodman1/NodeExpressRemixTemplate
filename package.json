@@ -30,7 +30,6 @@
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.3.1",
     "generic-pool": "^3.9.0",
     "hono": "^3.12.6",
     "isbot": "^3.6.8",
@@ -76,7 +75,8 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "tailwindcss": "^3.4.0",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "zod": "^3.23.8"
   },
   "engines": {
     "node": ">=18.0.0"
