@@ -11,7 +11,7 @@ create table if not exists users (
   created_ms int8 not null,
 
   primary key (id)
-)
+) strict
 ;
 
 -- storing anything we'd proxy to segment
@@ -22,7 +22,7 @@ create table if not exists analytics_events (
   created_ms int8 not null,
 
   primary key (id)
-)
+) strict
 ;
 
 -- for storing all stripe events we get
@@ -34,5 +34,5 @@ create table if not exists stripe_webhooks (
   created_ms int8 not null,
 
   primary key (id)
-)
+) strict
 ;
