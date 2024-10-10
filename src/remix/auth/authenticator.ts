@@ -8,7 +8,8 @@ import { logger } from "../../api/logger"
 import { extractError } from "../../api/utils"
 import { isAdminEmail } from "../../api/utils.server"
 import { sendEmail } from "./email.server"
-import { UserRow } from "../../api/db/types"
+import inTransaction from "../../api/db/transactional.server"
+import { UserRow } from "../../api/db/users.types"
 import { RowsNotFound } from "../../api/db/errors"
 
 // export the whole sessionStorage object
@@ -61,7 +62,17 @@ authenticator.use(
           "got user"
         )
 
-        const user = await createOrGetUser(email)
+        let user: UserRow | undefined
+        await inTransaction(async (conn) => {
+          user = await createOrGetUser(
+            conn,
+            email
+          )
+        })
+
+        // pleasing typescript
+        if (!user)
+          throw new Error("User not created or found THIS SHOULD NOT HAPPEN")
 
         return {
           ...user,
@@ -96,7 +107,16 @@ export async function getAuthedUser(
   }
 
   try {
-    const userInfo = await selectUser(user.id)
+    let userInfo: UserRow | undefined
+    await inTransaction(async (conn) => {
+      userInfo = await selectUser(conn, user.id)
+    })
+
+    // Pleasing TypeScript
+    if (!userInfo) {
+      throw new RowsNotFound()
+    }
+
     return {
       ...userInfo,
       authSession: user,
